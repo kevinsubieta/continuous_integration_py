@@ -1,0 +1,42 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Gestionar Persona</h5>
+
+  <form action="/add_person" mothod="post">
+    
+    <div class="input-group mb-3">
+      <div class="input-group-prepend"><span class="input-group-text">ID</span></div>
+      <input name="inputId" value="{% if person is not none %}{{person.id}}{% endif %}" readonly type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Nombre</span></div>
+      <input name="inputName" value="{% if person is not none %}{{person.name}}{% endif %}" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Apellido</span></div>
+      <input name="inputLastname" value="{% if person is not none %}{{person.last_name}}{% endif %}" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Fecha de Nacimiento</span></div>
+      <input name="inputBirthday" value="{% if person is not none %}{{person.birthday.strftime('%Y-%m-%d')}}{% else %}1994-12-10{% endif %}" type="date" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    
+  </form> 
+  <div>
+<div>  
+{% endblock %}
+
+{% block js %}
+<script>
+
+</script>
+
+{% endblock %}
