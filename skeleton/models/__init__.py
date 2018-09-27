@@ -8,7 +8,7 @@ import zope.sqlalchemy
 from .mymodel import *  # flake8: noqa
 
 # run configure_mappers after defining all of the models to ensure
-# all relationships can be setup
+# all relationships can be setup ok
 configure_mappers()
 
 

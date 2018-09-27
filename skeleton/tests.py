@@ -1,6 +1,9 @@
 import unittest
 import transaction
 
+from teamcity import is_running_under_teamcity
+from teamcity.unittestpy import TeamcityTestRunner
+
 from pyramid import testing
 
 
@@ -20,7 +23,7 @@ class BaseTest(unittest.TestCase):
             get_engine,
             get_session_factory,
             get_tm_session,
-            )
+        )
 
         self.engine = get_engine(settings)
         session_factory = get_session_factory(self.engine)
@@ -37,6 +40,16 @@ class BaseTest(unittest.TestCase):
         testing.tearDown()
         transaction.abort()
         Base.metadata.drop_all(self.engine)
+
+
+
+
+if __name__ == '__main__':
+    if is_running_under_teamcity():
+        runner = TeamcityTestRunner()
+    else:
+        runner = unittest.TextTestRunner()
+    unittest.main(testRunner=runner)
 
 
 class TestMyViewSuccessCondition(BaseTest):
@@ -57,9 +70,25 @@ class TestMyViewSuccessCondition(BaseTest):
         self.assertEqual(info['project'], 'skeleton')
 
 
+if __name__ == '__main__':
+    if is_running_under_teamcity():
+        runner = TeamcityTestRunner()
+    else:
+        runner = unittest.TextTestRunner()
+    unittest.main(testRunner=runner)
+
 class TestMyViewFailureCondition(BaseTest):
 
     def test_failing_view(self):
         from .views.default import my_view
         info = my_view(dummy_request(self.session))
         self.assertEqual(info.status_int, 500)
+
+
+
+if __name__ == '__main__':
+    if is_running_under_teamcity():
+        runner = TeamcityTestRunner()
+    else:
+        runner = unittest.TextTestRunner()
+    unittest.main(testRunner=runner)
