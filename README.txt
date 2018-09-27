@@ -31,3 +31,32 @@ Getting Started
 - Run your project.
 
     env/bin/pserve development.ini
+
+For Setting up Postgres DB
+---------------
+
+- Install Postgres.
+
+    sudo apt-get update
+    sudo apt-get install postgresql postgresql-contrib
+
+- Ingresar a la cuenta con el usuario
+
+    sudo -i -u {username}  # example postgres
+    psql # para conectarse a la base de datos por defecto, (una vez ingresado en la cuenta)
+    sudo -u {username} psql # para conectarse directamente (sin haber ingresado a la cuenta)
+
+
+- Crear base de datos
+
+    createdb skeleton
+
+- Crear usuario
+
+    createuser --interactive # logged
+    sudo adduser skeleton
+
+- Utilidades
+
+    \l # para listar las bd
+    \q # para salir de la base de datos

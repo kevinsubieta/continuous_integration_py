@@ -31,7 +31,18 @@
     
   </form> 
   <div>
-<div>  
+<div>
+
+{% if errors|length > 0 %}
+<br>
+<div id="errors_div" class="alert alert-danger" role="alert">
+{% for e in errors %}
+  {{ e }} <br>
+{% endfor %}
+</div>
+{% endif %}
+
+
 {% endblock %}
 
 {% block js %}
