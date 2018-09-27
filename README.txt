@@ -50,3 +50,13 @@ For Setting up Postgres DB
 - Crear base de datos
 
     createdb skeleton
+
+- Crear usuario
+
+    createuser --interactive # logged
+    sudo adduser skeleton
+
+- Utilidades
+
+    \l # para listar las bd
+    \q # para salir de la base de datos

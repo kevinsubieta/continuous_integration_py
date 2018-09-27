@@ -13,10 +13,10 @@ class BaseTest(unittest.TestCase):
         self.config = testing.setUp(settings={
             'sqlalchemy.url': 'sqlite:///:memory:'
         })
-        self.config.include('.models')
+        self.config.include('skeleton.models')
         settings = self.config.get_settings()
 
-        from .models import (
+        from skeleton.models import (
             get_engine,
             get_session_factory,
             get_tm_session,
@@ -28,33 +28,36 @@ class BaseTest(unittest.TestCase):
         self.session = get_tm_session(session_factory, transaction.manager)
 
     def init_database(self):
-        from .models.meta import Base
+        from skeleton.models.meta import Base
         Base.metadata.create_all(self.engine)
 
     def tearDown(self):
-        from .models.meta import Base
+        from skeleton.models.meta import Base
 
         testing.tearDown()
         transaction.abort()
         Base.metadata.drop_all(self.engine)
 
 
-# class TestMyViewSuccessCondition(BaseTest):
-#
-#     def setUp(self):
-#         super(TestMyViewSuccessCondition, self).setUp()
-#         self.init_database()
-#
-#         from .models import MyModel
-#
-#         model = MyModel(name='one', value=55)
-#         self.session.add(model)
-#
-#     def test_passing_view(self):
-#         from .views.default import my_view
-#         info = my_view(dummy_request(self.session))
-#         self.assertEqual(info['one'].name, 'one')
-#         self.assertEqual(info['project'], 'skeleton')
+class TestMyViewSuccessCondition(BaseTest):
+
+    def setUp(self):
+        super(TestMyViewSuccessCondition, self).setUp()
+        self.init_database()
+
+        from skeleton.models import Person
+
+        # model = MyModel(name='one', value=55)
+        # self.session.add(model)
+
+    def test_passing_view(self):
+        from skeleton.views.peopleController import PeopleController
+        req = dummy_request(self.session)
+        c = PeopleController(req)
+        info = c.people()
+        # info = my_view(dummy_request(self.session))
+        self.assertEqual(info['one'].name, 'one')
+        self.assertEqual(info['project'], 'skeleton')
 
 
 class TestMyViewFailureCondition(BaseTest):
