@@ -1,6 +1,7 @@
 from datetime import datetime, date
 
 from pyramid.httpexceptions import HTTPFound
+from pyramid.renderers import render_to_response
 from pyramid.request import Request
 from pyramid.view import view_config
 
@@ -24,7 +25,7 @@ class PeopleController:
             return {'person': None}
         person = self.db.query(Person).get(id_)
         print(person.birthday.strftime('%Y-%m-%d'))
-        return {'person': person}
+        return {'person': person, 'errors': []}
 
     @view_config(route_name='add_person', renderer='people.jinja2')
     def update(self):
@@ -38,8 +39,13 @@ class PeopleController:
         person.birthday = datetime.strptime(birthday, '%Y-%m-%d').date()
         v = Verifier()
         v.verify(person, date)
-        if len(v.errors) == 0:
-            self.db.merge(person)
+        if len(v.errors) > 0:
+            return render_to_response(
+                'person.jinja2',
+                {'person': person, 'errors': v.errors},
+                request=self.req
+            )
+        self.db.merge(person)
         return HTTPFound(location='/people')
 
     @view_config(route_name='delete_person', renderer='people.jinja2')
