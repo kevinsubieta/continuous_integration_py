@@ -5,6 +5,9 @@ from teamcity import is_running_under_teamcity
 from teamcity.unittestpy import TeamcityTestRunner
 from pyramid import testing
 
+if __name__ == '__main__':
+    unittest.main(testRunner=TeamcityTestRunner())
+
 
 def dummy_request(dbsession):
     return testing.DummyRequest(dbsession=dbsession)
@@ -74,10 +77,10 @@ class TestMyViewFailureCondition(BaseTest):
 
 
 
-
-if __name__ == '__main__':
-    if is_running_under_teamcity():
-        runner = TeamcityTestRunner()
-    else:
-        runner = unittest.TextTestRunner()
-    unittest.main(testRunner=runner)
+#
+#if __name__ == '__main__':
+#    if is_running_under_teamcity():
+#        runner = TeamcityTestRunner()
+#    else:
+#        runner = unittest.TextTestRunner()
+#    unittest.main(testRunner=runner)
