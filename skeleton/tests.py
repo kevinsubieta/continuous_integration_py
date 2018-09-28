@@ -3,7 +3,6 @@ import transaction
 
 from teamcity import is_running_under_teamcity
 from teamcity.unittestpy import TeamcityTestRunner
-
 from pyramid import testing
 
 
@@ -44,14 +43,6 @@ class BaseTest(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
-    if is_running_under_teamcity():
-        runner = TeamcityTestRunner()
-    else:
-        runner = unittest.TextTestRunner()
-    unittest.main(testRunner=runner)
-
-
 class TestMyViewSuccessCondition(BaseTest):
 
     def setUp(self):
@@ -73,12 +64,6 @@ class TestMyViewSuccessCondition(BaseTest):
         self.assertEqual(info['project'], 'skeleton')
 
 
-if __name__ == '__main__':
-    if is_running_under_teamcity():
-        runner = TeamcityTestRunner()
-    else:
-        runner = unittest.TextTestRunner()
-    unittest.main(testRunner=runner)
 
 class TestMyViewFailureCondition(BaseTest):
 
@@ -86,6 +71,7 @@ class TestMyViewFailureCondition(BaseTest):
         from .views.default import my_view
         info = my_view(dummy_request(self.session))
         self.assertEqual(info.status_int, 500)
+
 
 
 
