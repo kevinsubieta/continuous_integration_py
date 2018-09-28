@@ -88,4 +88,4 @@ class TestMyViewFailureCondition(BaseTest):
 #        runner = TeamcityTestRunner()
 #    else:
 #        runner = unittest.TextTestRunner()
-#    unittest.main(testRunner=runner) OK
+#    unittest.main(testRunner=runner) OK OK
