@@ -1,16 +1,7 @@
 import unittest
 import transaction
 
-from teamcity import is_running_under_teamcity
-from teamcity.unittestpy import TeamcityTestRunner
 from pyramid import testing
-
-if __name__ == '__main__':
-    if is_running_under_teamcity():
-        runner = TeamcityTestRunner()
-    else:
-        runner = unittest.TextTestRunner()
-    unittest.main(testRunner=runner)
 
 
 def dummy_request(dbsession):
