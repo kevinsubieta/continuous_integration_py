@@ -1,8 +1,16 @@
 import unittest
 import transaction
+
+from teamcity import is_running_under_teamcity
+from teamcity.unittestpy import TeamcityTestRunner
 from pyramid import testing
 
-
+if __name__ == '__main__':
+    if is_running_under_teamcity():
+        runner = TeamcityTestRunner()
+    else:
+        runner = unittest.TextTestRunner()
+    unittest.main(testRunner=runner)
 
 
 def dummy_request(dbsession):
@@ -40,8 +48,6 @@ class BaseTest(unittest.TestCase):
         Base.metadata.drop_all(self.engine)
 
 
-
-
 class TestMyViewSuccessCondition(BaseTest):
 
     def setUp(self):
@@ -54,31 +60,18 @@ class TestMyViewSuccessCondition(BaseTest):
         # self.session.add(model)
 
     def test_passing_view(self):
-        #     from skeleton.views.peopleController import PeopleController
-        #     req = dummy_request(self.session)
-        #    c = PeopleController(req)
-        #    info = c.people()
+        from skeleton.views.peopleController import PeopleController
+        req = dummy_request(self.session)
+        c = PeopleController(req)
+        info = c.people()
         # info = my_view(dummy_request(self.session))
-        #   self.assertEqual(info['one'].name, 'one')
-        #   self.assertEqual(info['project'], 'skeleton')
-        self.assertEqual(500, 500)
-
+        self.assertEqual(info['one'].name, 'one')
+        self.assertEqual(info['project'], 'skeleton')
 
 
 class TestMyViewFailureCondition(BaseTest):
 
     def test_failing_view(self):
-        #    from .views.default import my_view
-        #   info = my_view(dummy_request(self.session))
-        #     self.assertEqual(info.status_int, 500)
-        self.assertEqual(500, 500)
-
-
-
-#
-#if __name__ == '__main__':
-#    if is_running_under_teamcity():
-#        runner = TeamcityTestRunner()
-#    else:
-#        runner = unittest.TextTestRunner()
-#    unittest.main(testRunner=runner) OK OK
+        from .views.default import my_view
+        info = my_view(dummy_request(self.session))
+        self.assertEqual(info.status_int, 500)
