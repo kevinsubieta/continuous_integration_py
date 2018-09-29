@@ -20,7 +20,8 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'psycopg2',
-    'pyteamcity'
+    'pyteamcity',
+    'teamcity-messages'
 ]
 
 tests_require = [
