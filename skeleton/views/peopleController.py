@@ -27,7 +27,7 @@ class PeopleController:
         print(person.birthday.strftime('%Y-%m-%d'))
         return {'person': person, 'errors': []}
 
-    @view_config(route_name='add_person', renderer='people.jinja2')
+    @view_config(route_name='add_person', renderer='people.jinja2', request_method=['POST'])
     def update(self):
         person = Person()
         id_ = self.req.params.get('inputId')
