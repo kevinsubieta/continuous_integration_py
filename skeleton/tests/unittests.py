@@ -21,6 +21,7 @@ class TestVerifier(TestCase):
         m.today.return_value = date(2000, 9, 9)
         v.verify(p, date)
         self.assertTrue(len(v.errors))
+        self.assertTrue(False)
 
 
 if __name__ == '__main__':
